@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>happy birthday, sayang 🤍</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=Caveat:wght@500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body.locked>*:not(#passwordScreen) {
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="locked">
+    <!-- PASSWORD LOCK SCREEN -->
+    <div id="passwordScreen" class="pwd-screen">
+        <div class="pwd-card">
+            <div class="pwd-char" id="pwdChar">
+                <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="55" cy="68" rx="36" ry="30" fill="#1e3a7a"/>
+                <circle cx="55" cy="38" r="28" fill="#24478f"/>
+                <ellipse cx="30" cy="18" rx="9" ry="7" fill="#1e3a7a" transform="rotate(-20 30 18)"/>
+                <ellipse cx="80" cy="18" rx="9" ry="7" fill="#1e3a7a" transform="rotate(20 80 18)"/>
+                <g id="eyesNormal">
+                    <circle cx="44" cy="36" r="6" fill="white"/><circle cx="66" cy="36" r="6" fill="white"/>
+                    <circle cx="45" cy="37" r="3.5" fill="#7ab8ff"/><circle cx="67" cy="37" r="3.5" fill="#7ab8ff"/>
+                    <circle cx="46" cy="35.5" r="1.2" fill="white"/><circle cx="68" cy="35.5" r="1.2" fill="white"/>
+                </g>
+                <g id="eyesSad" style="display:none">
+                    <path d="M38 35 Q44 30 50 35" stroke="#7ab8ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M60 35 Q66 30 72 35" stroke="#7ab8ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </g>
+                <g id="eyesHappy" style="display:none">
+                    <path d="M38 38 Q44 32 50 38" stroke="#7ab8ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M60 38 Q66 32 72 38" stroke="#7ab8ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </g>
+                <ellipse cx="37" cy="44" rx="7" ry="4" fill="#4a90e8" opacity="0.6"/>
+                <ellipse cx="73" cy="44" rx="7" ry="4" fill="#4a90e8" opacity="0.6"/>
+                <path id="mouthNormal" d="M48 50 Q55 56 62 50" stroke="#7ab8ff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path id="mouthSad" d="M48 55 Q55 50 62 55" stroke="#7ab8ff" stroke-width="2" fill="none" stroke-linecap="round" style="display:none"/>
+                <path id="tongueHappy" d="M48 50 Q55 60 62 50" stroke="#7ab8ff" stroke-width="2" fill="#4a90e8" stroke-linecap="round" style="display:none"/>
+                <path d="M88 72 Q102 60 98 78 Q94 88 84 82" fill="#1e3a7a"/>
+                <ellipse cx="22" cy="72" rx="10" ry="6" fill="#2a4e9a" transform="rotate(-15 22 72)"/>
+                <ellipse cx="88" cy="72" rx="10" ry="6" fill="#2a4e9a" transform="rotate(15 88 72)"/>
+            </svg>
+            </div>
+            <h2 class="pwd-title">Hi ayang, ayo tebak passwordnya,<br><span>I bet u knoww!!</span></h2>
+            <div class="pwd-dots" id="pwdDots">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <p class="pwd-error" id="pwdError">salah sayang, coba lagi 🥺</p>
+            <div class="pwd-numpad">
+                <button class="pwd-btn" onclick="pwdInput('1')">1</button>
+                <button class="pwd-btn" onclick="pwdInput('2')">2</button>
+                <button class="pwd-btn" onclick="pwdInput('3')">3</button>
+                <button class="pwd-btn" onclick="pwdInput('4')">4</button>
+                <button class="pwd-btn" onclick="pwdInput('5')">5</button>
+                <button class="pwd-btn" onclick="pwdInput('6')">6</button>
+                <button class="pwd-btn" onclick="pwdInput('7')">7</button>
+                <button class="pwd-btn" onclick="pwdInput('8')">8</button>
+                <button class="pwd-btn" onclick="pwdInput('9')">9</button>
+                <div></div>
+                <button class="pwd-btn" onclick="pwdInput('0')">0</button>
+                <button class="pwd-btn pwd-del" onclick="pwdDelete()">&#9003;</button>
+            </div>
+            <p class="pwd-clue">clue : out first met</p>
+        </div>
+    </div>
+
+    <!-- BOKEH CANVAS -->
+    <canvas id="bokehCanvas"></canvas>
+    <!-- FILM GRAIN -->
+    <div class="grain"></div>
+    <!-- VIGNETTE -->
+    <div class="vignette"></div>
+
+    <!-- ═══════════════════════════════════════
+     WELCOME SCREEN
+═══════════════════════════════════════ -->
+    <div id="welcomeScreen" class="welcome">
+        <div class="w-orb w1"></div>
+        <div class="w-orb w2"></div>
+        <div class="w-orb w3"></div>
+        <div class="w-center">
+            <p class="w-eyebrow" id="subText">another year, another reason to smile ✦
+            </p>
+            <h1 class="w-title" id="typingText">you make everything feel better</h1>
+            <div class="w-line"><span></span><i class="fas fa-heart"></i><span></span></div>
+            <button class="w-btn" onclick="enterWebsite()">unwrap the memories →</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+    <main id="mainContent" class="hidden-content">
+
+        <!-- ─── HAPPY BIRTHDAY SECTION ─── -->
+        <section class="s-hbd">
+
+            <!-- filmstrip top -->
+            <div class="filmstrip"></div>
+
+            <!-- floating bokeh orbs inside section -->
+            <div class="s-orb so1"></div>
+            <div class="s-orb so2"></div>
+            <div class="s-orb so3"></div>
+
+            <!-- STICKERS -->
+            <!-- safety pin -->
+            <div class="sk sk-pin" style="top:10%;left:4%">
+                <svg width="80" height="36" viewBox="0 0 80 36"><ellipse cx="13" cy="18" rx="12" ry="7" fill="none" stroke="rgba(160,200,255,0.65)" stroke-width="3"/><line x1="25" y1="18" x2="70" y2="18" stroke="rgba(160,200,255,0.65)" stroke-width="3"/><circle cx="70" cy="18" r="6" fill="rgba(160,200,255,0.3)" stroke="rgba(160,200,255,0.65)" stroke-width="2.5"/></svg>
+            </div>
+
+            <!-- birds trio (animated) -->
+            <div class="sk sk-birds" style="top:9%;right:4%">
+                <svg width="200" height="110" viewBox="0 0 200 110" fill="none">
+        <g class="bird-anim b1">
+          <path d="M158 18 Q175 4 190 13 Q175 19 158 18Z" fill="rgba(190,215,255,0.6)"/>
+          <path d="M148 25 Q136 12 120 18 Q134 26 148 25Z" fill="rgba(190,215,255,0.55)"/>
+        </g>
+        <g class="bird-anim b2">
+          <path d="M108 52 Q125 38 140 47 Q125 53 108 52Z" fill="rgba(190,215,255,0.5)"/>
+          <path d="M98 59 Q86 46 70 52 Q84 60 98 59Z" fill="rgba(190,215,255,0.48)"/>
+        </g>
+        <g class="bird-anim b3">
+          <path d="M58 85 Q75 71 90 80 Q75 86 58 85Z" fill="rgba(190,215,255,0.42)"/>
+          <path d="M48 92 Q36 79 20 85 Q34 93 48 92Z" fill="rgba(190,215,255,0.38)"/>
+        </g>
+      </svg>
+            </div>
+
+            <!-- big flower left center -->
+            <div class="sk sk-flower sk-wobble" style="top:38%;left:1%">
+                <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+        <g opacity="0.58">
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(140,185,255,0.55)" transform="rotate(0 70 70)"/>
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(140,185,255,0.5)"  transform="rotate(60 70 70)"/>
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(140,185,255,0.45)" transform="rotate(120 70 70)"/>
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(130,180,255,0.5)"  transform="rotate(180 70 70)"/>
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(140,185,255,0.45)" transform="rotate(240 70 70)"/>
+          <ellipse cx="70" cy="24" rx="16" ry="30" fill="rgba(140,185,255,0.42)" transform="rotate(300 70 70)"/>
+          <circle cx="70" cy="70" r="16" fill="rgba(170,210,255,0.6)"/>
+          <circle cx="70" cy="70" r="7"  fill="rgba(200,230,255,0.55)"/>
+        </g>
+      </svg>
+            </div>
+
+            <!-- small flower right -->
+            <div class="sk sk-flower2 sk-wobble" style="top:26%;right:30%">
+                <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+        <g opacity="0.5">
+          <ellipse cx="45" cy="16" rx="10" ry="20" fill="rgba(150,190,255,0.5)" transform="rotate(0 45 45)"/>
+          <ellipse cx="45" cy="16" rx="10" ry="20" fill="rgba(150,190,255,0.45)" transform="rotate(72 45 45)"/>
+          <ellipse cx="45" cy="16" rx="10" ry="20" fill="rgba(150,190,255,0.42)" transform="rotate(144 45 45)"/>
+          <ellipse cx="45" cy="16" rx="10" ry="20" fill="rgba(150,190,255,0.45)" transform="rotate(216 45 45)"/>
+          <ellipse cx="45" cy="16" rx="10" ry="20" fill="rgba(150,190,255,0.42)" transform="rotate(288 45 45)"/>
+          <circle cx="45" cy="45" r="10" fill="rgba(180,215,255,0.55)"/>
+        </g>
+      </svg>
+            </div>
+
+            <!-- camera + pearl -->
+            <div class="sk sk-camera" style="top:32%;left:4%">
+                <svg width="100" height="78" viewBox="0 0 100 78" fill="none">
+        <rect x="8" y="22" width="80" height="50" rx="7" fill="rgba(130,165,215,0.22)" stroke="rgba(170,205,255,0.5)" stroke-width="2.5"/>
+        <circle cx="50" cy="47" r="17" fill="rgba(90,130,200,0.28)" stroke="rgba(170,205,255,0.5)" stroke-width="2.5"/>
+        <circle cx="50" cy="47" r="8" fill="rgba(70,110,190,0.38)"/>
+        <circle cx="50" cy="47" r="3" fill="rgba(200,225,255,0.3)"/>
+        <rect x="30" y="8" width="26" height="16" rx="4" fill="rgba(130,165,215,0.22)" stroke="rgba(170,205,255,0.45)" stroke-width="2"/>
+        <circle cx="80" cy="32" r="6" fill="rgba(170,205,255,0.3)" stroke="rgba(170,205,255,0.5)" stroke-width="1.5"/>
+      </svg>
+            </div>
+            <div class="sk sk-pearl" style="top:56%;left:4%">
+                <svg width="110" height="24" viewBox="0 0 110 24" fill="none">
+        <path d="M5 12 Q55 4 105 12" stroke="rgba(180,210,255,0.28)" stroke-width="1" fill="none"/>
+        <circle cx="5"  cy="12" r="5.5" fill="rgba(215,230,255,0.55)"/>
+        <circle cx="20" cy="8"  r="5.5" fill="rgba(215,230,255,0.52)"/>
+        <circle cx="35" cy="6"  r="5.5" fill="rgba(215,230,255,0.55)"/>
+        <circle cx="50" cy="5"  r="5.5" fill="rgba(215,230,255,0.52)"/>
+        <circle cx="65" cy="6"  r="5.5" fill="rgba(215,230,255,0.55)"/>
+        <circle cx="80" cy="8"  r="5.5" fill="rgba(215,230,255,0.52)"/>
+        <circle cx="95" cy="12" r="5.5" fill="rgba(215,230,255,0.55)"/>
+      </svg>
+            </div>
+
+            <!-- miffy bunny -->
+            <div class="sk sk-miffy sk-wobble" style="bottom:6%;left:7%">
+                <svg width="110" height="145" viewBox="0 0 110 145" fill="none" opacity="0.65">
+        <ellipse cx="55" cy="100" rx="38" ry="44" fill="rgba(215,228,255,0.38)" stroke="rgba(175,205,255,0.5)" stroke-width="2.5"/>
+        <ellipse cx="55" cy="52"  rx="28" ry="32" fill="rgba(215,228,255,0.38)" stroke="rgba(175,205,255,0.5)" stroke-width="2.5"/>
+        <ellipse cx="37" cy="16" rx="10" ry="22" fill="rgba(215,228,255,0.32)" stroke="rgba(175,205,255,0.45)" stroke-width="2" transform="rotate(-12 37 16)"/>
+        <ellipse cx="73" cy="16" rx="10" ry="22" fill="rgba(215,228,255,0.32)" stroke="rgba(175,205,255,0.45)" stroke-width="2" transform="rotate(12 73 16)"/>
+        <line x1="44" y1="53" x2="30" y2="53" stroke="rgba(175,205,255,0.55)" stroke-width="2.5"/>
+        <line x1="66" y1="53" x2="80" y2="53" stroke="rgba(175,205,255,0.55)" stroke-width="2.5"/>
+        <path d="M30 84 Q55 92 80 84" stroke="rgba(100,150,255,0.55)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+            </div>
+
+            <!-- with love badge -->
+            <div class="sk sk-withlove sk-pulse" style="top:55%;right:3%">
+                <svg width="185" height="68" viewBox="0 0 185 68">
+        <rect x="2" y="2" width="181" height="64" rx="9" fill="rgba(15,38,120,0.45)" stroke="rgba(100,155,255,0.6)" stroke-width="2.5"/>
+        <rect x="8" y="8" width="169" height="52" rx="6" fill="none" stroke="rgba(100,155,255,0.2)" stroke-width="1.5"/>
+        <text x="92" y="40" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="20" fill="rgba(175,215,255,0.92)">✦ with love ✦</text>
+      </svg>
+            </div>
+
+            <!-- heart gem -->
+            <div class="sk sk-heartgem sk-pulse" style="bottom:14%;right:22%">
+                <svg width="78" height="72" viewBox="0 0 78 72" fill="none">
+        <path d="M39 66 C39 66 6 44 6 22 C6 10 14 3 26 3 C32 3 37 8 39 13 C41 8 46 3 52 3 C64 3 72 10 72 22 C72 44 39 66 39 66Z" fill="rgba(40,80,210,0.5)" stroke="rgba(120,175,255,0.7)" stroke-width="3"/>
+        <path d="M39 54 C39 54 14 36 14 22 C14 14 20 9 27 9 C32 9 37 14 39 19 C41 14 46 9 51 9 C58 9 64 14 64 22 C64 36 39 54 39 54Z" fill="rgba(80,130,240,0.32)"/>
+        <path d="M25 16 Q32 10 39 13" stroke="rgba(200,225,255,0.3)" stroke-width="2" fill="none"/>
+      </svg>
+            </div>
+
+            <!-- ═══ MAIN TEXT ═══ -->
+            <div class="hbd-text">
+                <h1 class="hbd-h">Happy</h1>
+                <h1 class="hbd-b">Birthday!</h1>
+                <p class="hbd-sub">wishing you endless happiness,<br>love, and the most beautiful moments ahead.</p>
+            </div>
+
+            <!-- ═══ OVAL FRAME ═══ -->
+            <div class="oval-wrap">
+                <div class="oval-inner-wrap">
+                    <!-- decorative ring animation -->
+                    <div class="oval-ring r1"></div>
+                    <div class="oval-ring r2"></div>
+                    <svg class="oval-border-svg" viewBox="0 0 280 356" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="140" cy="178" rx="134" ry="172" fill="none" stroke="rgba(65,115,210,0.8)" stroke-width="11"/>
+          <ellipse cx="140" cy="178" rx="124" ry="162" fill="none" stroke="rgba(45,88,180,0.4)" stroke-width="4"/>
+          <ellipse cx="140" cy="178" rx="114" ry="152" fill="none" stroke="rgba(45,88,180,0.18)" stroke-width="2"/>
+          <circle cx="140" cy="8"   r="8" fill="rgba(110,170,255,0.9)"/>
+          <circle cx="140" cy="348" r="8" fill="rgba(110,170,255,0.9)"/>
+          <circle cx="8"   cy="178" r="8" fill="rgba(110,170,255,0.8)"/>
+          <circle cx="272" cy="178" r="8" fill="rgba(110,170,255,0.8)"/>
+          <circle cx="42"  cy="56"  r="5" fill="rgba(110,170,255,0.7)"/>
+          <circle cx="238" cy="56"  r="5" fill="rgba(110,170,255,0.7)"/>
+          <circle cx="42"  cy="300" r="5" fill="rgba(110,170,255,0.7)"/>
+          <circle cx="238" cy="300" r="5" fill="rgba(110,170,255,0.7)"/>
+        </svg>
+                    <div class="oval-photo">
+                        <img src="foto/oval-hbd.jpg" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- scroll cue -->
+            <button onclick="scrollToSection('s-timer')" class="hbd-scroll scroll-indicator">
+                <i class="fas fa-arrow-down"></i>
+            </button>
+        </section>
+
+        <!-- ─── HERO TIMER ─── -->
+        <section class="hero" id="s-timer">
+            <div class="s-orb so4"></div>
+            <div class="s-orb so5"></div>
+            <div class="hero-inner">
+                <p class="hero-eyebrow reveal">✦ &nbsp; together since &nbsp; ✦</p>
+                <h1 class="hero-title reveal">Us, in Time.</h1>
+                <p class="hero-sub reveal">every second we share is a gift i never want to give back.</p>
+                <div class="timer-wrapper reveal">
+                    <div class="time-seg"><span id="days">00</span><label>Days</label></div>
+                    <div class="t-sep">:</div>
+                    <div class="time-seg"><span id="hours">00</span><label>Hours</label></div>
+                    <div class="t-sep">:</div>
+                    <div class="time-seg"><span id="minutes">00</span><label>Minutes</label></div>
+                    <div class="t-sep">:</div>
+                    <div class="time-seg"><span id="seconds">00</span><label>Seconds</label></div>
+                </div>
+                <button onclick="scrollToSection('s-timer')" class="scroll-indicator reveal"><i class="fas fa-arrow-down"></i></button>
+            </div>
+        </section>
+
+        <!-- ─── PLAYLIST ─── -->
+        <section id="playlist" class="s-content">
+            <div class="section-head reveal">
+                <span class="sec-label">our soundtrack</span>
+                <h2>Songs We Love</h2>
+                <p>melodies that always remind me of you.</p>
+            </div>
+            <div class="track-list reveal">
+                <div id="track-PINKSKIES" class="track" onclick="playSong('PINKSKIES')">
+                    <div class="t-ico"><i class="fas fa-play"></i></div>
+                    <div class="t-info">
+                        <h3>Pink Skies</h3>
+                        <p>LANY</p>
+                    </div><span class="t-dur">4:23</span></div>
+                <div id="track-XXL" class="track" onclick="playSong('XXL')">
+                    <div class="t-ico"><i class="fas fa-play"></i></div>
+                    <div class="t-info">
+                        <h3>XXL</h3>
+                        <p>LANY</p>
+                    </div><span class="t-dur">4:45</span></div>
+                <div id="track-ILYSB" class="track" onclick="playSong('ILYSB')">
+                    <div class="t-ico"><i class="fas fa-play"></i></div>
+                    <div class="t-info">
+                        <h3>ILYSB</h3>
+                        <p>LANY</p>
+                    </div><span class="t-dur">4:29</span></div>
+            </div>
+        </section>
+
+        <!-- ─── DENIM SCRAPBOOK ─── -->
+        <section class="s-denim">
+            <div class="ribbon top-r"></div>
+
+            <!-- ITEMS -->
+            <div class="dn-wrap">
+
+                <!-- gift box top-left -->
+                <div class="dn-item dn-gift">
+                    <svg width="90" height="96" viewBox="0 0 90 96" fill="none">
+          <rect x="8"  y="34" width="74" height="60" rx="4" fill="rgba(55,30,12,0.75)"  stroke="rgba(150,120,70,0.45)" stroke-width="2"/>
+          <rect x="8"  y="22" width="74" height="16" rx="3" fill="rgba(75,44,16,0.8)"   stroke="rgba(150,120,70,0.45)" stroke-width="2"/>
+          <line x1="45" y1="22" x2="45" y2="94" stroke="rgba(195,160,90,0.5)" stroke-width="2.5"/>
+          <path d="M45 22 C36 10 18 8 21 17 C24 26 40 22 45 22Z" fill="rgba(150,120,70,0.6)" stroke="rgba(195,160,90,0.5)" stroke-width="1.5"/>
+          <path d="M45 22 C54 10 72 8 69 17 C66 26 50 22 45 22Z" fill="rgba(150,120,70,0.6)" stroke="rgba(195,160,90,0.5)" stroke-width="1.5"/>
+          <circle cx="45" cy="22" r="5" fill="rgba(195,160,90,0.7)"/>
+          <circle cx="45" cy="64" r="14" fill="rgba(95,44,24,0.55)" stroke="rgba(165,80,50,0.55)" stroke-width="2"/>
+          <path d="M45 53 C41 57 35 58 37 63 C39 68 45 65 45 70 C45 65 51 68 53 63 C55 58 49 57 45 53Z" fill="rgba(210,120,80,0.7)"/>
+        </svg>
+                </div>
+
+                <!-- polaroid photo -->
+                <div class="dn-item dn-polaroid">
+                    <!-- tape on top -->
+                    <div class="dn-tape"></div>
+                    <img src="foto/polaroid-denim.jpeg" alt="foto" />
+                    <div class="dn-caption"></div>
+                </div>
+
+                <!-- ditto letter -->
+                <div class="dn-item dn-letter">
+                    <div class="dn-stamp">
+                        <svg width="64" height="78" viewBox="0 0 64 78" fill="none">
+            <rect x="2" y="2" width="60" height="74" rx="3" fill="rgba(245,238,220,0.92)" stroke="rgba(155,135,95,0.5)" stroke-width="2"/>
+            <rect x="7" y="7" width="50" height="64" rx="2" fill="none" stroke="rgba(155,135,95,0.28)" stroke-width="1.5"/>
+            <text x="32" y="36" text-anchor="middle" font-size="22" fill="rgba(70,50,25,0.7)">🌸</text>
+            <text x="32" y="55" text-anchor="middle" font-family="Georgia" font-size="7.5" fill="rgba(70,50,25,0.6)">REPUBLIQUE</text>
+            <text x="32" y="66" text-anchor="middle" font-family="Georgia" font-size="7.5" fill="rgba(70,50,25,0.6)">FRANÇAISE</text>
+          </svg>
+                    </div>
+                    <div class="dn-letter-body">
+                        <p class="dn-ditto">Ditto</p>
+                        <p class="dn-ltext">stay in the places<br>you want to be...<br>i'll be right here.<br><br>oh so stay,<br>i want you to stay.</p>
+                    </div>
+                </div>
+
+                <!-- heart metal frame -->
+                <div class="dn-item dn-heart">
+                    <svg class="heart-frame-svg" viewBox="0 0 210 196" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M105 173 C105 173 18 115 18 62 C18 31 42 12 70 19 C84 23 97 37 105 49 C113 37 126 23 140 19 C168 12 192 31 192 62 C192 115 105 173 105 173Z" fill="rgba(12,28,100,0.6)" stroke="rgba(115,168,255,0.75)" stroke-width="6"/>
+          <path d="M105 160 C105 160 30 107 30 62 C30 36 50 21 73 27 C85 31 98 44 105 56 C112 44 125 31 137 27 C160 21 180 36 180 62 C180 107 105 160 105 160Z" fill="none" stroke="rgba(85,138,240,0.32)" stroke-width="3"/>
+          <clipPath id="hc">
+            <path d="M105 163 C105 163 25 110 25 62 C25 34 46 17 71 23 C84 27 98 41 105 53 C112 41 126 27 139 23 C164 17 185 34 185 62 C185 110 105 163 105 163Z"/>
+          </clipPath>
+          <image href="foto/heart-frame.jpeg" x="23" y="17" width="164" height="148" clip-path="url(#hc)" preserveAspectRatio="xMidYMid slice"/>
+          <path d="M105 163 C105 163 25 110 25 62 C25 34 46 17 71 23 C84 27 98 41 105 53 C112 41 126 27 139 23 C164 17 185 34 185 62 C185 110 105 163 105 163Z" fill="none" stroke="rgba(190,220,255,0.12)" stroke-width="1.5"/>
+        </svg>
+                </div>
+
+                <!-- wax seal -->
+                <div class="dn-item dn-wax">
+                    <svg width="78" height="78" viewBox="0 0 78 78" fill="none">
+          <circle cx="39" cy="39" r="36" fill="rgba(105,38,22,0.78)" stroke="rgba(172,82,55,0.65)" stroke-width="2.5"/>
+          <circle cx="39" cy="39" r="29" fill="rgba(138,52,32,0.5)"  stroke="rgba(172,82,55,0.38)" stroke-width="1.5"/>
+          <path d="M39 22 C33 28 25 30 27 36 C29 42 39 38 39 45 C39 38 49 42 51 36 C53 30 45 28 39 22Z" fill="rgba(225,128,88,0.72)"/>
+          <circle cx="39" cy="37" r="5" fill="rgba(245,165,120,0.65)"/>
+        </svg>
+                </div>
+
+                <!-- bow charm -->
+                <div class="dn-item dn-bow">
+                    <svg width="90" height="65" viewBox="0 0 90 65" fill="none">
+          <path d="M45 32 C33 22 10 13 7 26 C4 39 26 40 45 32Z" fill="rgba(148,178,220,0.52)" stroke="rgba(178,210,255,0.58)" stroke-width="2"/>
+          <path d="M45 32 C57 22 80 13 83 26 C86 39 64 40 45 32Z" fill="rgba(148,178,220,0.52)" stroke="rgba(178,210,255,0.58)" stroke-width="2"/>
+          <ellipse cx="45" cy="32" rx="8" ry="8" fill="rgba(188,215,255,0.58)"/>
+          <line x1="41" y1="40" x2="36" y2="62" stroke="rgba(148,178,220,0.5)" stroke-width="2.5"/>
+          <line x1="49" y1="40" x2="54" y2="62" stroke="rgba(148,178,220,0.5)" stroke-width="2.5"/>
+        </svg>
+                </div>
+
+            </div>
+            <!-- dn-wrap -->
+
+            <div class="ribbon bot-r"></div>
+        </section>
+
+
+        <section class="s-denim s-note">
+            <div class="ribbon top-r"></div>
+
+            <!-- binder clip -->
+            <div class="clip-wrap">
+                <svg width="68" height="85" viewBox="0 0 68 85" fill="none">
+        <rect x="6" y="32" width="56" height="50" rx="4" fill="rgba(178,148,55,0.65)"  stroke="rgba(220,195,80,0.75)" stroke-width="2.5"/>
+        <rect x="13" y="39" width="42" height="36" rx="3" fill="rgba(200,170,65,0.4)" stroke="rgba(220,195,80,0.4)" stroke-width="1.5"/>
+        <path d="M20 32 L14 7 L34 18 L54 7 L48 32" fill="none" stroke="rgba(220,195,80,0.8)" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="34" cy="18" r="5" fill="rgba(235,215,95,0.75)"/>
+      </svg>
+            </div>
+
+            <div class="note-paper">
+                <p class="note-text">happy birthday to you, my love 🤍 i hope your day is as warm and beautiful as you are. you deserve every good thing this world has to offer — today and always. may this year bring you closer to everything you've ever dreamed of, and may
+                    you find joy in all the little moments too. thank you for being the most wonderful person in my life. stay amazing, stay soft, stay you. 🌹</p>
+            </div>
+
+            <div class="ribbon bot-r"></div>
+        </section>
+
+        <!-- ─── GALLERY ─── -->
+        <section class="s-content">
+            <div class="gallery reveal">
+                <div class="pol rotate-l">
+                    <div class="pol-tape"></div><img src="foto/gallery-1.jpg" alt="" />
+                    <p>us being us</p>
+                </div>
+                <div class="pol rotate-r">
+                    <div class="pol-tape"></div><img src="foto/gallery-2.jpg" alt="" />
+                    <p>golden hour w/ you</p>
+                </div>
+                <div class="pol rotate-l">
+                    <div class="pol-tape"></div><img src="foto/gallery-3.jpg" alt="" />
+                    <p>our favorite place</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── RETRO TV VIDEO ─── -->
+        <section class="s-retro">
+            <div class="retro-tv">
+                <div class="retro-screen">
+                    <video id="coupleVideo" autoplay muted loop playsinline>
+          <source src="couple.mp4" type="video/mp4"/>
+        </video>
+                    <div class="retro-bw"></div>
+                    <div class="retro-vig"></div>
+                    <div class="retro-scan"></div>
+                    <div class="retro-glow"></div>
+                </div>
+            </div>
+            <p class="retro-cap">i do, love you.</p>
+        </section>
+
+        <!-- ─── CLOSING ─── -->
+        <section class="s-content s-closing">
+            <div class="s-orb so6"></div>
+            <div class="s-orb so7"></div>
+            <div class="section-head reveal">
+                <span class="sec-label">for you, always</span>
+                <h2>every memory we make<br>lives here,<br><em>forever</em></h2>
+            </div>
+            <div class="closing-box reveal">
+                <i class="fas fa-heart heart-beat" id="loveIcon" onclick="createHeartShower()"></i>
+                <p>thank you for being the most beautiful part of my life. every single second with you is a gift i'll always be grateful for.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>made with my whole heart, for you. ✦</p>
+        </footer>
+
+    </main>
+    <!-- /mainContent -->
+
+    <!-- MUSIC PLAYER -->
+    <div class="player" id="playerBar">
+        <div class="player-info">
+            <div class="eq"><span></span><span></span><span></span></div>
+            <span id="currentSongTitle" class="song-title">pick a song...</span>
+        </div>
+        <button onclick="toggleMusic()" class="play-btn"><i class="fas fa-play" id="mainPlayIcon"></i></button>
+    </div>
+
+    <audio id="myAudio" loop>
+  <source src="myAudio/lagu-kotainitaksamatanpamu.mp3" type="audio/mpeg"/>
+</audio>
+
+    <script src="script.js"></script>
+    <script>
+        // ── BOKEH CANVAS ──────────────────────────────
+        const C = document.getElementById('bokehCanvas');
+        const cx = C.getContext('2d');
+
+        function resizeC() {
+            C.width = innerWidth;
+            C.height = innerHeight;
+        }
+        resizeC();
+        addEventListener('resize', resizeC);
+
+        const COLS = [
+            [30, 90, 220],
+            [20, 65, 185],
+            [55, 125, 255],
+            [80, 150, 255],
+            [15, 50, 170],
+            [100, 170, 255],
+            [40, 100, 230],
+            [10, 42, 140]
+        ];
+
+        const blobs = Array.from({
+            length: 45
+        }, () => {
+            const c = COLS[Math.floor(Math.random() * COLS.length)];
+            return {
+                x: Math.random() * innerWidth,
+                y: Math.random() * innerHeight,
+                r: Math.random() * 140 + 40,
+                dx: (Math.random() - 0.5) * 0.22,
+                dy: (Math.random() - 0.5) * 0.16,
+                a: Math.random() * 0.5 + 0.1,
+                da: (Math.random() - 0.5) * 0.003,
+                c
+            };
+        });
+
+        function drawBokeh() {
+            cx.clearRect(0, 0, C.width, C.height);
+            blobs.forEach(b => {
+                b.x += b.dx;
+                b.y += b.dy;
+                b.a += b.da;
+                if (b.a < 0.06 || b.a > 0.62) b.da *= -1;
+                if (b.x < -b.r) b.x = C.width + b.r;
+                if (b.x > C.width + b.r) b.x = -b.r;
+                if (b.y < -b.r) b.y = C.height + b.r;
+                if (b.y > C.height + b.r) b.y = -b.r;
+                const g = cx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+                g.addColorStop(0, `rgba(${b.c[0]},${b.c[1]},${b.c[2]},${b.a})`);
+                g.addColorStop(1, 'transparent');
+                cx.beginPath();
+                cx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                cx.fillStyle = g;
+                cx.fill();
+            });
+            requestAnimationFrame(drawBokeh);
+        }
+        drawBokeh();
+
+        // ── SCROLL REVEAL ─────────────────────────────
+        const ro = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('active');
+            });
+        }, {
+            threshold: 0.1
+        });
+        document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+        // ── DENIM ITEMS REVEAL ────────────────────────
+        const ro2 = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.querySelectorAll('.dn-item').forEach((el, i) => {
+                        setTimeout(() => el.classList.add('dn-in'), i * 120);
+                    });
+                    ro2.unobserve(e.target);
+                }
+            });
+        }, {
+            threshold: 0,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        document.querySelectorAll('.dn-wrap').forEach(el => ro2.observe(el));
+
+        // fallback: trigger jika sudah terlihat saat halaman dimuat
+        setTimeout(() => {
+            document.querySelectorAll('.dn-wrap').forEach(wrap => {
+                const rect = wrap.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    wrap.querySelectorAll('.dn-item').forEach((el, i) => {
+                        setTimeout(() => el.classList.add('dn-in'), i * 120);
+                    });
+                }
+            });
+            document.querySelectorAll('.reveal').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) el.classList.add('active');
+            });
+        }, 400);
+    </script>
+</body>
+
+</html>
